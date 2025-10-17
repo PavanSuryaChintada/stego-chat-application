@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Shield, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -68,7 +68,11 @@ const Auth = () => {
       <Card className="w-full max-w-md p-8 space-y-6 bg-card border-border backdrop-blur-sm animate-fade-in">
         <div className="flex flex-col items-center space-y-3">
           <div className="p-4 rounded-full bg-primary/10">
-            <Shield className="w-12 h-12 text-primary" />
+            <img
+              src="https://res.cloudinary.com/dvxwlajla/image/upload/v1760621853/stego_favicon_b9rtie.png"
+              alt="StegoChat Icon"
+              className="w-12 h-12"
+            />
           </div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             StegoChat
