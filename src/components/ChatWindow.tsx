@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -36,7 +36,7 @@ export const ChatWindow = ({ currentUserId, otherUserId, otherUsername }: ChatWi
       return;
     }
     loadOrCreateChat();
-  }, [otherUserId]);
+  }, [otherUserId, loadOrCreateChat]);
 
   useEffect(() => {
     if (!chatId) return;
@@ -64,7 +64,7 @@ export const ChatWindow = ({ currentUserId, otherUserId, otherUsername }: ChatWi
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [chatId]);
+  }, [chatId, loadMessages]);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -72,7 +72,7 @@ export const ChatWindow = ({ currentUserId, otherUserId, otherUsername }: ChatWi
     }, 100);
   };
 
-  const loadOrCreateChat = async () => {
+  const loadOrCreateChat = useCallback(async () => {
     try {
       // Try to find existing chat
       const { data: existingChat } = await supabase
@@ -98,13 +98,13 @@ export const ChatWindow = ({ currentUserId, otherUserId, otherUsername }: ChatWi
 
       if (error) throw error;
       setChatId(newChat.id);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error loading/creating chat:', error);
       toast.error('Failed to load chat');
     }
-  };
+  }, [currentUserId, otherUserId]);
 
-  const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
     if (!chatId) return;
 
     try {
@@ -117,11 +117,11 @@ export const ChatWindow = ({ currentUserId, otherUserId, otherUsername }: ChatWi
       if (error) throw error;
       setMessages(data || []);
       scrollToBottom();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error loading messages:', error);
       toast.error('Failed to load messages');
     }
-  };
+  }, [chatId]);
 
   const handleSendMessage = async (type: 'text' | 'stego', content: string, imageUrl?: string, hasPasscode?: boolean) => {
     if (!chatId) return;
@@ -146,7 +146,7 @@ export const ChatWindow = ({ currentUserId, otherUserId, otherUsername }: ChatWi
         .from('chats')
         .update({ last_message_at: new Date().toISOString() })
         .eq('id', chatId);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error sending message:', error);
       toast.error('Failed to send message');
     }

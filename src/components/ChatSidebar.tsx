@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,16 +24,16 @@ interface ChatSidebarProps {
 export const ChatSidebar = ({ currentUserId, selectedChatId, onSelectChat }: ChatSidebarProps) => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<Profile[]>([]);
-  const [chats, setChats] = useState<any[]>([]);
+  const [chats, setChats] = useState<Array<{ id: string; userId: string; username: string; lastMessageAt: string }>>([]);
   const [showNewChat, setShowNewChat] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!currentUserId) return;
     loadChats();
-  }, [currentUserId]);
+  }, [currentUserId, loadChats]);
 
-  const loadChats = async () => {
+  const loadChats = useCallback(async () => {
     try {
       const { data: chatsData, error } = await supabase
         .from('chats')
@@ -64,11 +64,11 @@ export const ChatSidebar = ({ currentUserId, selectedChatId, onSelectChat }: Cha
       );
 
       setChats(formattedChats);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error loading chats:', error);
       toast.error('Failed to load chats');
     }
-  };
+  }, [currentUserId]);
 
   const searchUsers = async () => {
     if (!search.trim()) return;
@@ -84,7 +84,7 @@ export const ChatSidebar = ({ currentUserId, selectedChatId, onSelectChat }: Cha
       if (error) throw error;
       setUsers(data || []);
       setShowNewChat(true);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error searching users:', error);
       toast.error('Failed to search users');
     }

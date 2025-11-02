@@ -88,9 +88,9 @@ export const StegoModal = ({ isOpen, onClose, onSend, currentUserId }: StegoModa
       setMessage("");
       setUsePasscode(false);
       setPasscode("");
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error:', error);
-      toast.error(error.message || 'Failed to hide message');
+      toast.error(error instanceof Error ? error.message : 'Failed to hide message');
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Lock, Image as ImageIcon } from "lucide-react";
 import { decryptMessage } from "@/utils/crypto";
 import { extractMessageFromImage } from "@/utils/steganography";
@@ -25,7 +25,7 @@ export const MessageBubble = ({ message, isSent }: MessageBubbleProps) => {
   const [isDecrypting, setIsDecrypting] = useState(false);
   const [extractedData, setExtractedData] = useState<{ ciphertext: string; metadata: string } | null>(null);
 
-  const handleTextDecrypt = async () => {
+  const handleTextDecrypt = useCallback(async () => {
     if (!message.encrypted_content || decryptedText) return;
 
     try {
@@ -33,13 +33,13 @@ export const MessageBubble = ({ message, isSent }: MessageBubbleProps) => {
       const [ciphertext, metadata] = message.encrypted_content.split('|||');
       const decrypted = await decryptMessage(ciphertext, metadata);
       setDecryptedText(decrypted);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Decryption error:', error);
       toast.error('Failed to decrypt message');
     } finally {
       setIsDecrypting(false);
     }
-  };
+  }, [message.encrypted_content, decryptedText]);
 
   const handleImageClick = async () => {
     if (!message.image_url) return;
@@ -65,7 +65,7 @@ export const MessageBubble = ({ message, isSent }: MessageBubbleProps) => {
         setDecryptedText(decrypted);
         toast.success('Message revealed!');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('[MessageBubble] Extraction error:', error);
       
       // Provide specific error messages based on error type
@@ -95,7 +95,7 @@ export const MessageBubble = ({ message, isSent }: MessageBubbleProps) => {
       setDecryptedText(decrypted);
       setShowPasscodeModal(false);
       toast.success('Message revealed!');
-    } catch (error: any) {
+    } catch (error) {
       console.error('[MessageBubble] Decryption error:', error);
       if (error.message.includes('Passcode required') || error.message.includes('Invalid passcode')) {
         toast.error('Incorrect passcode - try again');
@@ -111,7 +111,7 @@ export const MessageBubble = ({ message, isSent }: MessageBubbleProps) => {
     if (message.message_type === 'text' && !decryptedText && message.encrypted_content && !isDecrypting) {
       handleTextDecrypt();
     }
-  }, [message.id]);
+  }, [message.id, message.message_type, message.encrypted_content, decryptedText, isDecrypting, handleTextDecrypt]);
 
   return (
     <>

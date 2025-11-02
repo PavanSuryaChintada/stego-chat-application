@@ -55,9 +55,9 @@ const Auth = () => {
         toast.success("Account created! You can now log in.");
         setIsLogin(true);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Auth error:", error);
-      toast.error(error.message || "Authentication failed");
+      toast.error(error instanceof Error ? error.message : "Authentication failed");
     } finally {
       setLoading(false);
     }
