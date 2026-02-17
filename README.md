@@ -6,10 +6,12 @@
 
 **Secure Messaging with Hidden Encryption**
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-stego--chat-brightgreen)](https://stego-chat-application.vercel.app/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.3-blue)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-purple)](https://vitejs.dev/)
+
+### [**Try it Live -- stego-chat-application.vercel.app**](https://stego-chat-application.vercel.app/)
 
 [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Tech Stack](#-tech-stack) • [Contributing](#-contributing)
 
@@ -244,7 +246,7 @@ Create a `.env` file in the root directory:
 
 ```env
 VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
 ```
 
 Replace with your actual Supabase credentials from Project Settings → API.
@@ -416,12 +418,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 👨‍💻 Author
 
 **Pavan Surya Chintada**
@@ -453,19 +449,23 @@ If you encounter any issues or have questions:
 
 ## 🚀 Deployment
 
-### Deploy to Vercel
+### Live Production
+
+The app is deployed and live at: **[https://stego-chat-application.vercel.app/](https://stego-chat-application.vercel.app/)**
+
+### Deploy Your Own
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/PavanSuryaChintada/stego-chat-application)
-
-### Deploy to Netlify
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/PavanSuryaChintada/stego-chat-application)
 
 ### Environment Variables for Deployment
 
-Remember to set these environment variables in your deployment platform:
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+Set these environment variables in your deployment platform:
+- `VITE_SUPABASE_URL` - Your Supabase project URL
+- `VITE_SUPABASE_PUBLISHABLE_KEY` - Your Supabase anon/public key
+
+For a detailed deployment walkthrough, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
