@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-{}
-=======
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "stego-chat-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -84,4 +81,3 @@
     "vite": "^5.4.19"
   }
 }
->>>>>>> c12e06c2c67b5602d18f208da76cf3832426c476
